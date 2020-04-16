@@ -8,8 +8,8 @@ public class ParkingLotTest {
     Object vehicle = null;
 
     @Before
-    public void set(){
-     parkingLot = new ParkingLot();
+    public void set() {
+        parkingLot = new ParkingLot();
         vehicle = new Object();
     }
 
@@ -24,5 +24,12 @@ public class ParkingLotTest {
         parkingLot.park(vehicle);
         boolean isParked = parkingLot.park(vehicle);
         Assert.assertFalse(isParked);
+    }
+
+    @Test
+    public void givenVehicle_WhenUnParked_ShouldReturnTrue() {
+        parkingLot.park(vehicle);
+        boolean isUnParked = parkingLot.unPark(vehicle);
+        Assert.assertTrue(isUnParked);
     }
 }
