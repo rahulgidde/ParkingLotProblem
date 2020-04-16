@@ -36,4 +36,16 @@ public class ParkingLotTest {
         boolean isUnParked = parkingLot.isUnParked(vehicle);
         Assert.assertTrue(isUnParked);
     }
+
+    @Test
+    public void givenVehicle_WhenUnParked_ShouldReturnFalse() {
+        try {
+            parkingLot.park(vehicle);
+            parkingLot.unPark(null);
+            boolean isUnParked = parkingLot.isUnParked(vehicle);
+            Assert.assertFalse(isUnParked);
+        } catch (ParkingLotException e) {
+            Assert.assertEquals(ParkingLotException.ExceptionType.NO_SUCH_VEHICLE, e.type);
+        }
+    }
 }
