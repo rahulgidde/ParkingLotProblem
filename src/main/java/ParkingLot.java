@@ -32,6 +32,7 @@ public class ParkingLot implements IParkingLotSystem {
             throw new ParkingLotException(ParkingLotException.ExceptionType.NO_SUCH_VEHICLE, "No Such Vehicle");
         if (parkingMap.containsKey(vehicle.getId())) {
             parkingMap.remove(vehicle.getId());
+            notifyObservers("Have Parking Space");
         }
     }
 
