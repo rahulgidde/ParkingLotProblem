@@ -5,11 +5,14 @@ import org.junit.Test;
 public class ParkingLotTest {
 
     ParkingLot parkingLot = null;
-
+    Owner owner = null;
+    AirportSecurity airportSecurity = null;
 
     @Before
     public void set() {
         parkingLot = new ParkingLot();
+        owner = new Owner();
+        airportSecurity = new AirportSecurity();
     }
 
     @Test
@@ -53,5 +56,27 @@ public class ParkingLotTest {
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.NO_SUCH_VEHICLE, e.type);
         }
+    }
+
+    @Test
+    public void givenVehicle_WhenOwner_ShouldReturnIsFull() throws ParkingLotException {
+        parkingLot.addObserver(owner);
+        Vehicle vehicle = new Vehicle("1", "Car");
+        parkingLot.park(vehicle);
+        Vehicle vehicle1 = new Vehicle("2", "Car");
+        parkingLot.park(vehicle1);
+        Assert.assertEquals("Parking Full", owner.getStatus());
+    }
+
+    @Test
+    public void givenVehicle_WhenOwnerAndAadSecurity_ShouldReturnIsFull() throws ParkingLotException {
+        parkingLot.addObserver(owner);
+        parkingLot.addObserver(airportSecurity);
+        Vehicle vehicle = new Vehicle("1", "Car");
+        parkingLot.park(vehicle);
+        Vehicle vehicle1 = new Vehicle("2", "car");
+        parkingLot.park(vehicle1);
+        Assert.assertEquals("Parking Full", owner.getStatus());
+        Assert.assertEquals("Parking Full", airportSecurity.getStatus());
     }
 }

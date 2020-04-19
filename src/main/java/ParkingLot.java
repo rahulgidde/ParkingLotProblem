@@ -11,6 +11,11 @@ public class ParkingLot implements IParkingLotSystem {
     public ParkingLot() {
     }
 
+    //METHOD FOR ADD OBSERVER
+    public void addObserver(IParkingObserver observer) {
+        this.observers.add(observer);
+    }
+
     //METHOD FOR PARKING VEHICLE
     public void park(Vehicle vehicle) throws ParkingLotException {
         if (this.parkingMap.size() <= parkingLotCapacity) {
@@ -18,7 +23,7 @@ public class ParkingLot implements IParkingLotSystem {
         } else if (parkingMap.size() == parkingLotCapacity)
             throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_FULL, "Parking Lot is Full");
         if (parkingMap.size() == parkingLotCapacity)
-            notifyObservers("Parking Lot Full");
+            notifyObservers("Parking Full");
     }
 
     //METHOD FOR UNPARK VEHICLE
@@ -30,6 +35,7 @@ public class ParkingLot implements IParkingLotSystem {
         }
     }
 
+    //METHOD FOR NOTIFY OBSERVERS
     @Override
     public void notifyObservers(String message) {
         for (IParkingObserver list : observers) {
