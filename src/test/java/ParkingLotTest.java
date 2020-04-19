@@ -5,25 +5,28 @@ import org.junit.Test;
 public class ParkingLotTest {
 
     ParkingLot parkingLot = null;
-    Object vehicle = null;
+
 
     @Before
     public void set() {
         parkingLot = new ParkingLot();
-        vehicle = new Object();
     }
 
     @Test
-    public void givenVehicle_WhenParked_ShouldReturnTrue() {
-        boolean isParked = parkingLot.isParked(new Object());
+    public void givenVehicle_WhenParked_ShouldReturnTrue() throws ParkingLotException {
+        Vehicle vehicle = new Vehicle("1", "Car");
+        parkingLot.park(vehicle);
+        boolean isParked = parkingLot.isParked(vehicle);
         Assert.assertTrue(isParked);
     }
 
     @Test
     public void givenVehicle_WhenAlreadyParked_ShouldReturnFalse() {
         try {
+            Vehicle vehicle = new Vehicle("1", "Car");
             parkingLot.park(vehicle);
-            boolean isParked = parkingLot.isParked(vehicle);
+            Vehicle vehicle1 = new Vehicle("2", "Car");
+            boolean isParked = parkingLot.isParked(vehicle1);
             Assert.assertFalse(isParked);
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.PARKING_FULL, e.type);
@@ -32,7 +35,9 @@ public class ParkingLotTest {
 
     @Test
     public void givenVehicle_WhenUnParked_ShouldReturnTrue() throws ParkingLotException {
+        Vehicle vehicle = new Vehicle("1", "Car");
         parkingLot.park(vehicle);
+        parkingLot.unPark(vehicle);
         boolean isUnParked = parkingLot.isUnParked(vehicle);
         Assert.assertTrue(isUnParked);
     }
@@ -40,6 +45,7 @@ public class ParkingLotTest {
     @Test
     public void givenVehicle_WhenUnParked_ShouldReturnFalse() {
         try {
+            Vehicle vehicle = new Vehicle("1", "Car");
             parkingLot.park(vehicle);
             parkingLot.unPark(null);
             boolean isUnParked = parkingLot.isUnParked(vehicle);
