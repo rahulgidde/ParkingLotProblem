@@ -6,6 +6,8 @@ public class ParkingLot implements IParkingLotSystem {
     int parkingLotCapacity = 2;
     private LinkedHashMap<String, Object> parkingMap = new LinkedHashMap<String, Object>();
     private List<IParkingObserver> observers = new ArrayList<>();
+    Attendant attendant = new Attendant();
+    String key;
 
     //DEFAULT CONSTRUCTOR
     public ParkingLot() {
@@ -19,7 +21,8 @@ public class ParkingLot implements IParkingLotSystem {
     //METHOD FOR PARKING VEHICLE
     public void park(Vehicle vehicle) throws ParkingLotException {
         if (this.parkingMap.size() <= parkingLotCapacity) {
-            parkingMap.put(vehicle.getId(), vehicle);
+            key = attendant.parkVehicle(parkingMap);
+            parkingMap.put(key, vehicle);
         } else if (parkingMap.size() == parkingLotCapacity)
             throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_FULL, "Parking Lot is Full");
         if (parkingMap.size() == parkingLotCapacity)
@@ -30,8 +33,9 @@ public class ParkingLot implements IParkingLotSystem {
     public void unPark(Vehicle vehicle) throws ParkingLotException {
         if (vehicle == null)
             throw new ParkingLotException(ParkingLotException.ExceptionType.NO_SUCH_VEHICLE, "No Such Vehicle");
-        if (parkingMap.containsKey(vehicle.getId())) {
-            parkingMap.remove(vehicle.getId());
+        if (parkingMap.containsKey(key)) {
+            attendant.UnParkVehicle(key);
+            parkingMap.remove(key);
             notifyObservers("Have Parking Space");
         }
     }
