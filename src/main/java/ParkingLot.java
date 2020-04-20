@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -60,6 +61,16 @@ public class ParkingLot implements IParkingLotSystem {
         if (!parkingMap.containsKey(vehicle.getId()))
             return true;
         return false;
+    }
+
+    public String getVehicle(Vehicle vehicle) {
+        Iterator<String> itr = parkingMap.keySet().iterator();
+        while (itr.hasNext()) {
+            String key = itr.next();
+            if (parkingMap.get(key) == vehicle)
+                return key;
+        }
+        return null;
     }
 }
         

@@ -92,4 +92,15 @@ public class ParkingLotTest {
         Assert.assertEquals("Have Parking Space", owner.getStatus());
         Assert.assertEquals("Have Parking Space", airportSecurity.getStatus());
     }
+
+    @Test
+    public void givenVehicle_WhenFindVehicle_ShouldReturnKey() throws ParkingLotException {
+        parkingLot.addObserver(owner);
+        Vehicle vehicle = new Vehicle("1", "Car");
+        parkingLot.park(vehicle);
+        Vehicle vehicle1 = new Vehicle("3", "Car");
+        parkingLot.park(vehicle1);
+        String key = parkingLot.getVehicle(vehicle1);
+        Assert.assertEquals("2", key);
+    }
 }
