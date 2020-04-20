@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ParkingLot implements IParkingLotSystem {
     int parkingLotCapacity = 2;
+    int chargePerHour = 10;
     private LinkedHashMap<String, Object> parkingMap = new LinkedHashMap<String, Object>();
     private List<IParkingObserver> observers = new ArrayList<>();
     Attendant attendant = new Attendant();
@@ -24,6 +25,7 @@ public class ParkingLot implements IParkingLotSystem {
         if (this.parkingMap.size() <= parkingLotCapacity) {
             key = attendant.parkVehicle(parkingMap);
             parkingMap.put(key, vehicle);
+            chargeVehicle(vehicle);
         } else if (parkingMap.size() == parkingLotCapacity)
             throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_FULL, "Parking Lot is Full");
         if (parkingMap.size() == parkingLotCapacity)
@@ -63,6 +65,7 @@ public class ParkingLot implements IParkingLotSystem {
         return false;
     }
 
+    //METHOD FOR FIND VEHICLE
     public String getVehicle(Vehicle vehicle) {
         Iterator<String> itr = parkingMap.keySet().iterator();
         while (itr.hasNext()) {
@@ -71,6 +74,12 @@ public class ParkingLot implements IParkingLotSystem {
                 return key;
         }
         return null;
+    }
+
+    //METHOD FOR CHARGE PARKING VEHICLE
+    public int chargeVehicle(Vehicle vehicle) {
+        int totalCharges = vehicle.getHour() * chargePerHour;
+        return totalCharges;
     }
 }
         

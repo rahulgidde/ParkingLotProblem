@@ -1,10 +1,16 @@
 public class Vehicle {
     String id;
     String name;
+    int hour;
 
-    public Vehicle(String id, String name) {
+    public Vehicle(String id, String name, int hour) {
         this.id = id;
         this.name = name;
+        this.hour = hour;
+    }
+
+    public int getHour() {
+        return hour;
     }
 
     public String getId() {
