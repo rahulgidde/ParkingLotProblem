@@ -4,12 +4,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ParkingLot implements IParkingLotSystem {
-    int parkingLotCapacity = 2;
-    int chargePerHour = 10;
+
+    //CONSTANT
+    int PARKING_LOT_CAPACITY = 2;
+    int CHARGES_PER_HOUR = 10;
+
+    //VARIABLE
+    String key;
+
     private LinkedHashMap<String, Object> parkingMap = new LinkedHashMap<String, Object>();
     private List<IParkingObserver> observers = new ArrayList<>();
     Attendant attendant = new Attendant();
-    String key;
+
 
     //DEFAULT CONSTRUCTOR
     public ParkingLot() {
@@ -22,13 +28,13 @@ public class ParkingLot implements IParkingLotSystem {
 
     //METHOD FOR PARKING VEHICLE
     public void park(Vehicle vehicle) throws ParkingLotException {
-        if (this.parkingMap.size() <= parkingLotCapacity) {
+        if (this.parkingMap.size() <= PARKING_LOT_CAPACITY) {
             key = attendant.parkVehicle(parkingMap);
             parkingMap.put(key, vehicle);
             chargeVehicle(vehicle);
-        } else if (parkingMap.size() == parkingLotCapacity)
+        } else if (parkingMap.size() == PARKING_LOT_CAPACITY)
             throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_FULL, "Parking Lot is Full");
-        if (parkingMap.size() == parkingLotCapacity)
+        if (parkingMap.size() == PARKING_LOT_CAPACITY)
             notifyObservers("Parking Full");
     }
 
@@ -76,9 +82,9 @@ public class ParkingLot implements IParkingLotSystem {
         return null;
     }
 
-    //METHOD FOR CHARGE PARKING VEHICLE
+    //METHOD FOR CHARGE PARKING VEHICLES
     public int chargeVehicle(Vehicle vehicle) {
-        int totalCharges = vehicle.getHour() * chargePerHour;
+        int totalCharges = vehicle.getHour() * CHARGES_PER_HOUR;
         return totalCharges;
     }
 }
