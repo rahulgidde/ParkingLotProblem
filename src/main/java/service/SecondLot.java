@@ -1,12 +1,14 @@
+package service;
+
 import java.util.ArrayList;
 
-public class FirstLot {
+public class SecondLot {
     int capacity = 2;
     static ArrayList parkingSlot = new ArrayList();
 
     public void getSlot(Vehicle vehicle) {
         if (parkingSlot.size() == 0) {
-            for (int slot = 1; slot <= 4; slot++) {
+            for (int i = 0; i <= 4; i++) {
                 parkingSlot.add(null);
             }
         }

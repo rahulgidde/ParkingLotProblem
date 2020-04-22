@@ -1,3 +1,5 @@
+package service;
+
 public class Vehicle {
     String id;
     String name;

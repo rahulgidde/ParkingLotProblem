@@ -1,4 +1,6 @@
-public class AirportSecurity implements IParkingObserver {
+package observer;
+
+public class Owner implements IParkingObserver {
     private String status;
 
     @Override
@@ -8,9 +10,5 @@ public class AirportSecurity implements IParkingObserver {
 
     public String getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

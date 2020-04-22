@@ -1,6 +1,11 @@
+import exception.ParkingLotException;
+import observer.AirportSecurity;
+import observer.Owner;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import service.ParkingLot;
+import service.Vehicle;
 
 public class ParkingLotTest {
 
