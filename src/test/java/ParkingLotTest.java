@@ -122,4 +122,15 @@ public class ParkingLotTest {
         int parkingCharges = parkingLot.chargeVehicle(vehicle);
         Assert.assertEquals(40, parkingCharges);
     }
+
+    @Test
+    public void givenDriverType_WhenParked_ShouldReturnTrue() throws ParkingLotException {
+        parkingLot.addObserver(owner);
+        Vehicle vehicle = new Vehicle("1", "Car", 4);
+        parkingLot.park(vehicle, NORMAL_DRIVER);
+        Vehicle vehicle1 = new Vehicle("3", "Car", 3);
+        parkingLot.park(vehicle1, HANDICAP_DRIVER);
+        boolean result = parkingLot.getVehicle(vehicle1);
+        Assert.assertEquals(true, result);
+    }
 }
