@@ -1,5 +1,4 @@
 import exception.ParkingLotException;
-import exception.VehicleType;
 import observer.AirportSecurity;
 import observer.Owner;
 import org.junit.Assert;
@@ -84,9 +83,9 @@ public class ParkingLotTest {
         parkingLot.addObserver(owner);
         parkingLot.addObserver(airportSecurity);
         Vehicle vehicle = new Vehicle("1", "Car", 2);
-        parkingLot.park(vehicle, NORMAL_DRIVER,SMALL_VEHICLE);
+        parkingLot.park(vehicle, NORMAL_DRIVER, SMALL_VEHICLE);
         Vehicle vehicle1 = new Vehicle("2", "car", 1);
-        parkingLot.park(vehicle1, NORMAL_DRIVER,SMALL_VEHICLE);
+        parkingLot.park(vehicle1, NORMAL_DRIVER, SMALL_VEHICLE);
         Assert.assertEquals("Parking Full", owner.getStatus());
         Assert.assertEquals("Parking Full", airportSecurity.getStatus());
     }
@@ -96,9 +95,9 @@ public class ParkingLotTest {
         parkingLot.addObserver(owner);
         parkingLot.addObserver(airportSecurity);
         Vehicle vehicle = new Vehicle("1", "Car", 2);
-        parkingLot.park(vehicle, NORMAL_DRIVER,SMALL_VEHICLE);
+        parkingLot.park(vehicle, NORMAL_DRIVER, SMALL_VEHICLE);
         Vehicle vehicle1 = new Vehicle("2", "car", 4);
-        parkingLot.park(vehicle1, HANDICAP_DRIVER,SMALL_VEHICLE);
+        parkingLot.park(vehicle1, HANDICAP_DRIVER, SMALL_VEHICLE);
         parkingLot.unPark(vehicle1);
         Assert.assertEquals("Have Parking Space", owner.getStatus());
         Assert.assertEquals("Have Parking Space", airportSecurity.getStatus());
@@ -108,9 +107,9 @@ public class ParkingLotTest {
     public void givenVehicle_WhenFindVehicle_ShouldReturnKey() throws ParkingLotException {
         parkingLot.addObserver(owner);
         Vehicle vehicle = new Vehicle("1", "Car", 4);
-        parkingLot.park(vehicle, NORMAL_DRIVER,SMALL_VEHICLE);
+        parkingLot.park(vehicle, NORMAL_DRIVER, SMALL_VEHICLE);
         Vehicle vehicle1 = new Vehicle("3", "Car", 3);
-        parkingLot.park(vehicle1, NORMAL_DRIVER,SMALL_VEHICLE);
+        parkingLot.park(vehicle1, NORMAL_DRIVER, SMALL_VEHICLE);
         boolean result = parkingLot.getVehicle(vehicle1);
         Assert.assertEquals(true, result);
     }
@@ -121,7 +120,7 @@ public class ParkingLotTest {
         Vehicle vehicle = new Vehicle("1", "Car", 4);
         parkingLot.park(vehicle, NORMAL_DRIVER, SMALL_VEHICLE);
         Vehicle vehicle1 = new Vehicle("3", "Car", 3);
-        parkingLot.park(vehicle1, NORMAL_DRIVER,SMALL_VEHICLE);
+        parkingLot.park(vehicle1, NORMAL_DRIVER, SMALL_VEHICLE);
         int parkingCharges = parkingLot.chargeVehicle(vehicle);
         Assert.assertEquals(40, parkingCharges);
     }
@@ -130,9 +129,20 @@ public class ParkingLotTest {
     public void givenDriverType_WhenParked_ShouldReturnTrue() throws ParkingLotException {
         parkingLot.addObserver(owner);
         Vehicle vehicle = new Vehicle("1", "Car", 4);
-        parkingLot.park(vehicle, NORMAL_DRIVER,SMALL_VEHICLE);
+        parkingLot.park(vehicle, NORMAL_DRIVER, SMALL_VEHICLE);
         Vehicle vehicle1 = new Vehicle("3", "Car", 3);
-        parkingLot.park(vehicle1, HANDICAP_DRIVER,SMALL_VEHICLE);
+        parkingLot.park(vehicle1, HANDICAP_DRIVER, SMALL_VEHICLE);
+        boolean result = parkingLot.getVehicle(vehicle1);
+        Assert.assertEquals(true, result);
+    }
+
+    @Test
+    public void givenDriverTypeAndVehicleType_WhenParked_ShouldReturnTrue() throws ParkingLotException {
+        parkingLot.addObserver(owner);
+        Vehicle vehicle = new Vehicle("1", "Car", 4);
+        parkingLot.park(vehicle, NORMAL_DRIVER, LARGE_VEHICLE);
+        Vehicle vehicle1 = new Vehicle("3", "Car", 3);
+        parkingLot.park(vehicle1, HANDICAP_DRIVER, SMALL_VEHICLE);
         boolean result = parkingLot.getVehicle(vehicle1);
         Assert.assertEquals(true, result);
     }
