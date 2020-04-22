@@ -100,8 +100,8 @@ public class ParkingLotTest {
         parkingLot.park(vehicle);
         Vehicle vehicle1 = new Vehicle("3", "Car", 3);
         parkingLot.park(vehicle1);
-        String key = parkingLot.getVehicle(vehicle1);
-        Assert.assertEquals("2", key);
+        boolean result = parkingLot.getVehicle(vehicle1);
+        Assert.assertEquals(true, result);
     }
 
     @Test

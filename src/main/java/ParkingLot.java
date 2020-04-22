@@ -1,20 +1,20 @@
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-public class ParkingLot implements IParkingLotSystem {
+public class ParkingLot {
 
     //CONSTANT
     int PARKING_LOT_CAPACITY = 2;
     int CHARGES_PER_HOUR = 10;
 
-    //VARIABLE
-    String key;
+    static int count =0;
+    FirstLot firstLot = new FirstLot();
+    SecondLot secondLot = new SecondLot();
+    ArrayList list1 = firstLot.getList();
+    ArrayList list2 = secondLot.getList();
 
-    private LinkedHashMap<String, Object> parkingMap = new LinkedHashMap<String, Object>();
     private List<IParkingObserver> observers = new ArrayList<>();
-    Attendant attendant = new Attendant();
+    ParkingLotSystem attendant = new ParkingLotSystem();
 
 
     //DEFAULT CONSTRUCTOR
@@ -28,13 +28,13 @@ public class ParkingLot implements IParkingLotSystem {
 
     //METHOD FOR PARKING VEHICLE
     public void park(Vehicle vehicle) throws ParkingLotException {
-        if (this.parkingMap.size() <= PARKING_LOT_CAPACITY) {
-            key = attendant.parkVehicle(parkingMap);
-            parkingMap.put(key, vehicle);
+        if (count <= PARKING_LOT_CAPACITY){
+            attendant.park(vehicle);
+            count++;
             chargeVehicle(vehicle);
-        } else if (parkingMap.size() == PARKING_LOT_CAPACITY)
+        } else if (count >= PARKING_LOT_CAPACITY)
             throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_FULL, "Parking Lot is Full");
-        if (parkingMap.size() == PARKING_LOT_CAPACITY)
+        if (count == PARKING_LOT_CAPACITY)
             notifyObservers("Parking Full");
     }
 
@@ -42,15 +42,11 @@ public class ParkingLot implements IParkingLotSystem {
     public void unPark(Vehicle vehicle) throws ParkingLotException {
         if (vehicle == null)
             throw new ParkingLotException(ParkingLotException.ExceptionType.NO_SUCH_VEHICLE, "No Such Vehicle");
-        if (parkingMap.containsKey(key)) {
-            attendant.UnParkVehicle(key);
-            parkingMap.remove(key);
-            notifyObservers("Have Parking Space");
-        }
+        attendant.unPark(vehicle);
+        notifyObservers("Have Parking Space");
     }
 
     //METHOD FOR NOTIFY OBSERVERS
-    @Override
     public void notifyObservers(String message) {
         for (IParkingObserver list : observers) {
             list.update(message);
@@ -59,27 +55,25 @@ public class ParkingLot implements IParkingLotSystem {
 
     //METHOD FOR CHECK VEHICLE PARKED
     public boolean isParked(Vehicle vehicle) {
-        if (parkingMap.containsKey(vehicle.getId()))
+        if (list1.contains(vehicle))
             return true;
         return false;
     }
 
     //METHOD FOR CHECK VEHICLE UNPARKED
     public boolean isUnParked(Vehicle vehicle) {
-        if (!parkingMap.containsKey(vehicle.getId()))
-            return true;
-        return false;
+        if (list1.contains(vehicle))
+            return false;
+        return true;
     }
 
     //METHOD FOR FIND VEHICLE
-    public String getVehicle(Vehicle vehicle) {
-        Iterator<String> itr = parkingMap.keySet().iterator();
-        while (itr.hasNext()) {
-            String key = itr.next();
-            if (parkingMap.get(key) == vehicle)
-                return key;
-        }
-        return null;
+    public boolean getVehicle(Vehicle vehicle) {
+        if (list1.contains(vehicle))
+            return true;
+        else if (list2.contains(vehicle))
+            return true;
+        return false;
     }
 
     //METHOD FOR CHARGE PARKING VEHICLES
