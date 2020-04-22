@@ -1,5 +1,6 @@
 package service;
 
+import exception.DriverType;
 import exception.ParkingLotException;
 import observer.IParkingObserver;
 
@@ -12,7 +13,7 @@ public class ParkingLot {
     int PARKING_LOT_CAPACITY = 2;
     int CHARGES_PER_HOUR = 10;
 
-    static int count =0;
+    static int count = 0;
     FirstLot firstLot = new FirstLot();
     SecondLot secondLot = new SecondLot();
     ArrayList list1 = firstLot.getList();
@@ -20,10 +21,11 @@ public class ParkingLot {
 
     private List<IParkingObserver> observers = new ArrayList<>();
     ParkingLotSystem attendant = new ParkingLotSystem();
-
+    DriverType type;
 
     //DEFAULT CONSTRUCTOR
     public ParkingLot() {
+
     }
 
     //METHOD FOR ADD OBSERVER
@@ -32,9 +34,9 @@ public class ParkingLot {
     }
 
     //METHOD FOR PARKING VEHICLE
-    public void park(Vehicle vehicle) throws ParkingLotException {
-        if (count <= PARKING_LOT_CAPACITY){
-            attendant.park(vehicle);
+    public void park(Vehicle vehicle, DriverType type) throws ParkingLotException {
+        if (count <= PARKING_LOT_CAPACITY) {
+            attendant.getParking(vehicle, type);
             count++;
             chargeVehicle(vehicle);
         } else if (count >= PARKING_LOT_CAPACITY)

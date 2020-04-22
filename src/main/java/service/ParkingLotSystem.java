@@ -1,4 +1,7 @@
 package service;
+
+import exception.DriverType;
+
 import java.util.ArrayList;
 
 public class ParkingLotSystem {
@@ -28,5 +31,27 @@ public class ParkingLotSystem {
             firstLot.removeSlot(vehicle);
         if (list2.contains(vehicle))
             secondLot.removeSlot(vehicle);
+    }
+
+    public void getHandicapParking(Vehicle vehicle) {
+        for (int slot = 1; slot <= list1.size(); slot++) {
+            if (list2.size() == 0 || list1.get(slot) == null)
+                firstLot.getSlot(vehicle);
+            else if (list2.size() == 0 || list2.get(slot) == null)
+                secondLot.getSlot(vehicle);
+        }
+    }
+
+    public void getParking(Vehicle vehicle, DriverType type) {
+        switch (type) {
+            case NORMAL_DRIVER:
+                park(vehicle);
+                break;
+            case HANDICAP_DRIVER:
+                getHandicapParking(vehicle);
+                break;
+            default:
+                System.out.println("Invalid Type");
+        }
     }
 }
